@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/SimonRussia/HW_Stack_02.svg?branch=master)](https://travis-ci.org/SimonRussia/HW_Stack_02)
+
 ## Homework II (Stack)
 Данная домашняя работа посвящена изучению сборки проектов при помощи **cmake**.
 
