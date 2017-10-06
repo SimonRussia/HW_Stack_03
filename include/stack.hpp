@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <string>
+#include <stdexcept>
 using std::string;
 using std::cout;
 using std::endl;
@@ -11,14 +12,15 @@ using std::endl;
 template <typename T>
 class Stack {
  public:
-    Stack();
-    explicit Stack(size_t s);
-    size_t count() const;
-    bool empty() const;
-    void push(T const &);
-    T pop();
-    ~Stack();
-    T& operator[](int pos) {
+    Stack() noexcept;
+    explicit Stack(size_t s) noexcept;
+    size_t count() const noexcept;
+    bool empty() const noexcept;
+    void push(T const &) noexcept;
+    T& top() const noexcept;
+    T& pop() noexcept;
+    ~Stack() noexcept;
+    T& operator[](int pos) noexcept {
         return array_[pos];
     }
  private:
@@ -29,18 +31,18 @@ class Stack {
 
 //ВНЕШНЯЯ РЕАЛИЗАЦИЯ МЕТОДОВ КЛАССА STACK
 template <typename T>
-Stack<T>::Stack() : array_size_(size_t(10)), array_(new T[10]), count_(0) {}
+Stack<T>::Stack() noexcept : Stack(100) {}
 
 template <typename T>
-Stack<T>::Stack(size_t s) : array_size_(s), array_(new T[s]), count_(0) {}
+Stack<T>::Stack(size_t s) noexcept : array_size_(s), array_(new T[s]), count_(0) {}
 
 template <typename T>
-Stack<T>::~Stack() {
+Stack<T>::~Stack() noexcept {
     delete[] array_;
 }
 
 template <typename T>
-void Stack<T>::push(T const &val) {
+void Stack<T>::push(T const &val) noexcept {
     if (count_ == array_size_) {
         T* array_exp_ = new T[array_size_*2];
         for (int i = 0; i < array_size_; i++) {
@@ -54,19 +56,26 @@ void Stack<T>::push(T const &val) {
 }
 
 template <typename T>
-T Stack<T>::pop() {
-    return array_[--count_];
+T& Stack<T>::pop() noexcept {
+    if(count_ == 0) throw std::runtime_error("\tERROR:\tStack empty...");
+    --count_;
+    return top();
 }
 
 template <typename T>
-size_t Stack<T>::count() const {
+size_t Stack<T>::count() const noexcept {
     return count_;
 }
 
 template <typename T>
-bool Stack<T>::empty() const {
+bool Stack<T>::empty() const noexcept {
     if (count() == 0) return true;
     return false;
+}
+
+template <typename T>
+T& Stack<T>::top() const noexcept {
+    return array_[count_];
 }
 
 #endif  // DESKTOP_WORKSPACE_HOMEWORK_STACK_02_INCLUDE_STACK_HPP_"
