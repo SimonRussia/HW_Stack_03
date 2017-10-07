@@ -1,35 +1,33 @@
 //METHOD INIT
 #include "stack.hpp"
 
-// void foo_init() {
-// 	cout << endl << "RUN INIT FILE..." << endl;
-// 	Stack<int> IntArr;
-// 	Stack<char> CharArr;
-// 	cout << "RESULT\t" << "Created 2 arrays: IntArr & CharArr." << endl << endl;
-// }
-
 void foo_init() {
 	try {
-	Stack<int> IntArrA;
-	Stack<int> IntArrB;
+		cout << endl << "INITIALIZING 3 INT-ARRAYS..." << endl << endl;
+		Stack<int> IntArrA;
+		Stack<int> IntArrB;
+		Stack<int> IntArrC = Stack<int>(100); //  Переносим сзданный объект по rvalue ссылке в IntArrC.
 
-	for (int i = 0; i < 10; i++) {
-		IntArrA.push(i);
-	}
+		cout << "FILLING IntArrA ARRAY..." << endl << endl;
+		for (int i = 0; i < 10; i++) {
+			IntArrA.push(i);
+		}
 
-	Stack<int> IntArrC = Stack<int>(100);
+		cout << "COPY IntArrA INTO IntArrB..." << endl << endl;
+		IntArrB = IntArrA; //  Копируем IntArrA в IntArrB.
 
-	cout << IntArrC.size() << endl;
-
-	while(!IntArrA.empty()) {
+		cout << "CLEANING IntArrA ARRAY..." << endl << "RESULT\t";
+		while(!IntArrA.empty()) {
 			cout << IntArrA.pop() << " ";
 		}
-		cout << endl;
+		cout << endl << endl;
 
-	while(!IntArrB.empty()) {
+		cout << "CLEANING IntArrB ARRAY..." << endl << "RESULT\t";
+		while(!IntArrB.empty()) {
 			cout << IntArrB.pop() << " ";
 		}
 		cout << endl << endl;
+
 	} catch(const std::exception& e) {
 		cout << e.what() << endl;
 	}

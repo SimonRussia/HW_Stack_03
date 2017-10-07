@@ -8,7 +8,7 @@ void foo_pop() {
 		for(int i = 0; i < 10; i++) { DoubleArr.push(double(i)); }
 			
 		cout << "RESULT\t";
-		for(int j = 0; j < 7; j++) { cout << DoubleArr.pop() << " "; }
+		for(int j = 0; j < 10; j++) { cout << DoubleArr.pop() << " "; }
 		cout << endl << endl;
 
 	} catch(const std::exception& e) {

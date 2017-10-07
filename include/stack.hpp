@@ -16,9 +16,6 @@ class Stack {
     explicit Stack(size_t s) noexcept;
     Stack(const Stack& u) noexcept;
     Stack(Stack&& u) noexcept;
-    size_t size() const noexcept {
-        return array_size_;
-    }
     size_t count() const noexcept;
     bool empty() const noexcept;
     void push(T const &) noexcept;
@@ -61,7 +58,7 @@ Stack<T>& Stack<T>::operator=(const Stack& u) noexcept {
             array_[i] = u.array_[i];
         }
     } else {
-        cout << "ERROR:\tIt's the same object..." << endl;
+        throw std::runtime_error("\tERROR:\tIt's the same object...");
     }
     return *this;
 }
