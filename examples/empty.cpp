@@ -11,8 +11,9 @@ void foo_empty() {
 		for(int i = 0; i < sizeof(slovo); i++) { CharArr.push(slovo[i]); }
 
 		cout << "RESULT\t";
-		while(!CharArr.empty()) {
-			cout << CharArr.pop() << " ";
+		while(CharArr.empty()) {
+			CharArr.pop();
+			cout << CharArr.top() << " ";
 		}
 		cout << endl << endl;
 

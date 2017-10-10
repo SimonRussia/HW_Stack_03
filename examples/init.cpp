@@ -17,14 +17,16 @@ void foo_init() {
 		IntArrB = IntArrA; //  Копируем IntArrA в IntArrB.
 
 		cout << "CLEANING IntArrA ARRAY..." << endl << "RESULT\t";
-		while(!IntArrA.empty()) {
-			cout << IntArrA.pop() << " ";
+		while(IntArrA.empty()) {
+			IntArrA.pop();
+			cout << IntArrA.top() << " ";
 		}
 		cout << endl << endl;
 
 		cout << "CLEANING IntArrB ARRAY..." << endl << "RESULT\t";
-		while(!IntArrB.empty()) {
-			cout << IntArrB.pop() << " ";
+		while(IntArrB.empty()) {
+			IntArrB.pop();
+			cout << IntArrB.top() << " ";
 		}
 		cout << endl << endl;
 

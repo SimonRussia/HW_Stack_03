@@ -20,7 +20,7 @@ class Stack {
     bool empty() const noexcept;
     void push(T const &) noexcept;
     T& top() const noexcept;
-    T& pop() noexcept;
+    void pop() noexcept;
     ~Stack() noexcept;
 
     Stack<T>& operator=(const Stack& u) noexcept;
@@ -41,10 +41,8 @@ template <typename T>
 Stack<T>::Stack(size_t s) noexcept : array_size_(s), array_(new T[s]), count_(0) {}
 
 template <typename T>
-Stack<T>::Stack(const Stack& u) noexcept : array_(new T[u.array_size_]), array_size_(u.array_size_), count_(u.count_) {
-    for(int i = 0; i < count_; i++) {
-        array_[i] = u.array_[i];
-    }
+Stack<T>::Stack(const Stack& u) noexcept {
+    *this = u;
 }
 
 template <typename T>
@@ -57,17 +55,13 @@ Stack<T>& Stack<T>::operator=(const Stack& u) noexcept {
         for(int i = 0; i < count_; i++) {
             array_[i] = u.array_[i];
         }
-    } else {
-        throw std::runtime_error("\tERROR:\tIt's the same object...");
     }
     return *this;
 }
 
 template <typename T>
-Stack<T>::Stack(Stack&& u) noexcept : array_(u.array_), array_size_(u.array_size_), count_(u.count_) {
-    u.array_size_ = 0;
-    u.count_ = 0;
-    u.array_ = nullptr;
+Stack<T>::Stack(Stack&& u) noexcept {
+    *this = u;
 }
 
 template <typename T>
@@ -101,10 +95,9 @@ void Stack<T>::push(T const &val) noexcept {
 }
 
 template <typename T>
-T& Stack<T>::pop() noexcept {
+void Stack<T>::pop() noexcept {
     if(count_ == 0) throw std::runtime_error("\tERROR:\tStack empty...");
     --count_;
-    return top();
 }
 
 template <typename T>
@@ -114,8 +107,7 @@ size_t Stack<T>::count() const noexcept {
 
 template <typename T>
 bool Stack<T>::empty() const noexcept {
-    if (count() == 0) return true;
-    return false;
+    return count();
 }
 
 template <typename T>
