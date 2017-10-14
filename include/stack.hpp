@@ -5,7 +5,7 @@
 #include <iostream>
 #include <string>
 #include <stdexcept>
-#include <utility>
+#include <algorithm>
 using std::string;
 using std::cout;
 using std::endl;
@@ -26,7 +26,7 @@ class Stack {
 
     void swap(Stack& u) noexcept;
 
-    auto operator=(const Stack& u) noexcept;
+    Stack<T>& operator=(const Stack& u) noexcept;
     Stack<T>& operator=(Stack&& u) noexcept;
     T& operator[](size_t x) const noexcept;
 
@@ -57,7 +57,7 @@ void Stack<T>::swap(Stack& u) noexcept {
 }
 
 template <typename T>
-auto Stack<T>::operator=(const Stack& u) noexcept {
+Stack<T>& Stack<T>::operator=(const Stack& u) noexcept {
     if(this != &u) {
         Stack(u) .swap(*this); // Вызываем конструктор копирования для временного объекта
         // Затем вызываем фуекцию swap у временного объекта и передаем в нее указатель на текущий объект
