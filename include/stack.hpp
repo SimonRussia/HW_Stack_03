@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include <stdexcept>
+#include <utility>
 using std::string;
 using std::cout;
 using std::endl;
@@ -23,7 +24,9 @@ class Stack {
     void pop() noexcept;
     ~Stack() noexcept;
 
-    Stack<T>& operator=(const Stack& u) noexcept;
+    void swap(Stack& u) noexcept;
+
+    auto operator=(const Stack& u) noexcept;
     Stack<T>& operator=(Stack&& u) noexcept;
     T& operator[](size_t x) const noexcept;
 
@@ -41,37 +44,39 @@ template <typename T>
 Stack<T>::Stack(size_t s) noexcept : array_size_(s), array_(new T[s]), count_(0) {}
 
 template <typename T>
-Stack<T>::Stack(const Stack& u) noexcept {
-    *this = u;
+Stack<T>::Stack(const Stack& u) noexcept : array_(new T[u.array_size_]), array_size_(u.array_size_), count_(u.count_) {
+    std::copy(u.array_, u.array_ + u.array_size_, array_);
 }
 
 template <typename T>
-Stack<T>& Stack<T>::operator=(const Stack& u) noexcept {
+void Stack<T>::swap(Stack& u) noexcept {
+    // Меняем значения переменных в объектах класса Stack
+    std::swap((*this).array_, u.array_);
+    std::swap((*this).array_size_, u.array_size_);
+    std::swap((*this).count_, u.count_);
+}
+
+template <typename T>
+auto Stack<T>::operator=(const Stack& u) noexcept {
     if(this != &u) {
-        delete[] array_;
-        count_ = u.count_;
-        array_size_ = u.array_size_;
-        array_ = new T[array_size_];
-        for(int i = 0; i < count_; i++) {
-            array_[i] = u.array_[i];
-        }
+        Stack(u) .swap(*this); // Вызываем конструктор копирования для временного объекта
+        // Затем вызываем фуекцию swap у временного объекта и передаем в нее указатель на текущий объект
     }
     return *this;
 }
 
 template <typename T>
-Stack<T>::Stack(Stack&& u) noexcept {
-    *this = u;
+Stack<T>::Stack(Stack&& u) noexcept : array_(u.array_), array_size_(u.array_size_), count_(u.count_) {
+    u.array_ = nullptr;
+    u.array_size_ = 0;
+    u.count_ = 0;
 }
 
 template <typename T>
 Stack<T>& Stack<T>::operator=(Stack&& u) noexcept {
-    count_ = u.count_;
-    array_size_ = u.array_size_;
-    array_ = u.array_;
-    u.count_ = 0;
-    u.array_size_ = 0;
-    u.array_ = nullptr;
+    if(this != &u) {
+        Stack(std::move(u)) .swap(*this); // Вызываем конструктор перемещения для временного объекта
+    }
     return *this;
 }
 

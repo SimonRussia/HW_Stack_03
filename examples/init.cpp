@@ -15,6 +15,7 @@ void foo_init() {
 
 		cout << "COPY IntArrA INTO IntArrB..." << endl << endl;
 		IntArrB = IntArrA; //  Копируем IntArrA в IntArrB.
+		//Stack<int> IntArrB(std::move(IntArrA));
 
 		cout << "CLEANING IntArrA ARRAY..." << endl << "RESULT\t";
 		while(IntArrA.empty()) {
